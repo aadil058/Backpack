@@ -1,2 +1,7 @@
 <h1>HomePage</h1>
-<>
+<div class="btn-group">
+    <a role="button" class="btn btn-primary" [class.active]="state === 'login'" (click)="changeState('login')">Login</a>
+    <a role="button" class="btn btn-primary" [class.active]="state === 'signup'" (click)="changeState('signup')">Signup</a>
+</div>
+<login *ngIf="state === 'login'"></login>
+<signup *ngIf="state === 'signup'"></signup>
