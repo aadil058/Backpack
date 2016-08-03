@@ -1,6 +1,7 @@
 import { Component, Output } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder, REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
 import { SignupValidators } from '../CustomValidators/SignupValidators';
+import { Http } from '@angular/http';
 
 @Component({
     selector: 'signup',
@@ -13,8 +14,11 @@ export class SignupComponent {
     username: FormControl;
     password: FormControl;
 
-    constructor(private fb: FormBuilder) {
-        this.username = new FormControl("", Validators.compose([Validators.required, SignupValidators.CannotContainSpace]));
+    constructor(private fb: FormBuilder, private http: Http) {
+        this.username = new FormControl("", Validators.compose([
+            Validators.required, 
+            SignupValidators.CannotContainSpace]),
+            SignupValidators.usernameShouldBeUnique(http));
         this.password = new FormControl("", Validators.compose([Validators.required]));
 
         this.form = fb.group({
