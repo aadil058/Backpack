@@ -2,6 +2,11 @@ import { Component, Output } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder, REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
 import { SignupValidators } from '../CustomValidators/SignupValidators';
 import { Http, URLSearchParams } from '@angular/http';
+import { Observable } from 'rxjs';
+import { Subject } from 'rxjs/subject';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
     selector: 'signup',
@@ -37,12 +42,11 @@ export class SignupComponent {
         return new Promise(resolve => {
             let params = new URLSearchParams();
             params.set('username', formControl.value);
-
             this.http.get('http://localhost:1667/api/users/signup/namecheck', { search: params })
-                .subscribe(data => resolve(null), error => resolve({ usernameShouldBeUnique: true }));
-                // error line may cause the bug in case when username is not conflicting but still
-                // error is still returned due to unreachable page
-                // i am too lazy to handle the case, it just requires changes of 2-3 lines
+                     .subscribe(data => resolve(null), error => resolve({ usernameShouldBeUnique: true }));
+                        // error line may cause the bug in case when username is not conflicting but still
+                        // error is still returned due to unreachable page
+                        // i am too lazy to handle the case, it just requires changes of 2-3 lines
         });
     }
 }
