@@ -1,4 +1,16 @@
 # Backpack
 
-usebackpack.com clone
-built just for practice purpose and get familiar with Angular 2 for front end and nodejs for backend
+This repo contains code for clone of [usebackpack.com] (Just for practice purpose)
+
+# Important
+Make sure to install and run [BackpackServer] in your machine. For this app to be functional.
+
+
+# Steps to install this repo 
+  - download the repo
+  - Go to Backpack directory
+  - npm install
+  - npm start
+
+   [usebackpack.com]: <https://www.usebackpack.com>
+   [BackpackServer]: <https://github.com/aadil058/BackpackServer>
