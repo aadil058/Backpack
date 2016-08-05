@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder, REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
@@ -6,10 +6,12 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'login',
     templateUrl : '/app/login/login.component.html',
-    directives: [REACTIVE_FORM_DIRECTIVES],
-    providers: [LoginService]
+    directives: [REACTIVE_FORM_DIRECTIVES]
 })
 export class LoginComponent {
+
+    @Output() success = new EventEmitter();
+
     form: FormGroup;
     username: FormControl;
     password: FormControl;
@@ -28,11 +30,14 @@ export class LoginComponent {
 
     onSubmit() {
         this.loginService.login(this.form.value.username, this.form.value.password)
-                        .subscribe( res => this.router.navigate(['/courses']), 
-                                    error => { 
-                                       this.loginError = error; 
-                                       this.form.setErrors({ loginError: true }); 
-                                    }
-                                   );
+                        .subscribe(res => { 
+                                     var url: string = this.loginService.redirectUrl || 'courses';
+                                     this.loginService.redirectUrl = undefined;
+                                     this.success.emit(url);
+                                   }, 
+                                   error => { 
+                                     this.loginError = error; 
+                                     this.form.setErrors({ loginError: true }); 
+                                   });
     }
 }

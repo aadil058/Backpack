@@ -1,4 +1,4 @@
-import { Component, Output } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder, REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
 import { SignupValidators } from '../CustomValidators/SignupValidators';
 import { Http, URLSearchParams } from '@angular/http';
@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
     providers: [SignupService]
 })
 export class SignupComponent {
+
+    @Output() success = new EventEmitter();
 
     form: FormGroup;
     username: FormControl;
@@ -31,10 +33,10 @@ export class SignupComponent {
             password: this.password
         });
     }
-
+ 
     onSubmit() {
-        this.signupService.signup(this.form.value.username, this.username.value.password)
-                          .subscribe(res => { this.router.navigate(['/courses']); }, 
+        this.signupService.signup(this.form.value.username, this.form.value.password)
+                          .subscribe(res => this.success.emit({ token: res.token }), 
                                      err => console.log(err));  // haven't handled the error case, because it's most unlikely for error to be returned
     }  
 

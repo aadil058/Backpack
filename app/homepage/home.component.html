@@ -3,5 +3,5 @@
     <a role="button" class="btn btn-primary" [class.active]="state === 'login'" (click)="changeState('login')">Login</a>
     <a role="button" class="btn btn-primary" [class.active]="state === 'signup'" (click)="changeState('signup')">Signup</a>
 </div>
-<login *ngIf="state === 'login'"></login>
-<signup *ngIf="state === 'signup'"></signup>
+<login *ngIf="state === 'login'" (success)="onLoginSuccess($event)"></login>
+<signup *ngIf="state === 'signup'" (success)="onSignupSuccess($event)"></signup>
