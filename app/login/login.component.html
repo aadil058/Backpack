@@ -1,1 +1,27 @@
-<h2>Login</h2>
+<h2>Login</h2> 
+<form [formGroup]="form" (ngSubmit)="onSubmit()" >
+
+    <div *ngIf="form.touched || !form.pristine">
+        <div *ngIf="form.errors?.loginError" class="alert alert-danger">{{ loginError }}</div>
+    </div>
+
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" formControlName="username">
+
+        <div *ngIf="username.touched || !username.pristine">
+            <div *ngIf="username.errors?.required" class="alert alert-danger">Username is Required.</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="text" class="form-control" formControlName="password">
+
+        <div *ngIf="password.touched || !password.pristine">
+            <div *ngIf="password.errors?.required" class="alert alert-danger">Password is Required.</div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Login</button>
+</form>
