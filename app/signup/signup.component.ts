@@ -3,23 +3,22 @@ import { Validators, FormControl, FormGroup, FormBuilder, REACTIVE_FORM_DIRECTIV
 import { SignupValidators } from '../CustomValidators/SignupValidators';
 import { Http, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs';
-import { Subject } from 'rxjs/subject';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/switchMap';
+import { SignupService } from '../services/signup.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'signup',
     templateUrl : '/app/signup/signup.component.html',
-    directives: [REACTIVE_FORM_DIRECTIVES] 
+    directives: [REACTIVE_FORM_DIRECTIVES],
+    providers: [SignupService]
 })
 export class SignupComponent {
 
     form: FormGroup;
     username: FormControl;
     password: FormControl;
-
-    constructor(private fb: FormBuilder, private http: Http) {
+ 
+    constructor(private fb: FormBuilder, private http: Http, private signupService: SignupService, private router: Router) {
         this.username = new FormControl("", Validators.compose([
             Validators.required, 
             SignupValidators.CannotContainSpace]),
@@ -34,9 +33,10 @@ export class SignupComponent {
     }
 
     onSubmit() {
-        console.log(this.username);
-        console.log(this.form);
-    }
+        this.signupService.signup(this.form.value.username, this.username.value.password)
+                          .subscribe(res => { this.router.navigate(['/courses']); }, 
+                                     err => console.log(err));  // haven't handled the error case, because it's most unlikely for error to be returned
+    }  
 
     usernameShouldBeUnique(formControl:FormControl) {
         return new Promise(resolve => {
