@@ -28,10 +28,11 @@ export class LoginComponent {
 
     onSubmit() {
         this.loginService.login(this.form.value.username, this.form.value.password)
-                        .subscribe(res => this.router.navigate(['/courses']), 
-                                   error => { 
+                        .subscribe( res => this.router.navigate(['/courses']), 
+                                    error => { 
                                        this.loginError = error; 
                                        this.form.setErrors({ loginError: true }); 
-                                   });
+                                    }
+                                   );
     }
 }

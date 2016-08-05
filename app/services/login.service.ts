@@ -16,11 +16,12 @@ export class LoginService {
 
     successHandler(res) {
         res = res.json();
-        this.saveToken(res.token);
+        localStorage.setItem('token', res.token);
         return res;
     }
 
     failureHandler(error) {
+        console.log(error);
         let errMsg = (error._body && typeof(error._body) === "string") ? error._body : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         return Observable.throw(errMsg);
     }
@@ -31,9 +32,5 @@ export class LoginService {
 
     getToken() {
         return localStorage.getItem('token');
-    }
-
-    saveToken(token) {
-        localStorage.setItem('token', token);
     }
 }
