@@ -1,6 +1,6 @@
 # Backpack (Still in development)
 
-This repo contains code for clone of [usebackpack.com] (Just for practice purpose)
+This repo contains code for clone of [usebackpack.com]
 
 # Important
 Make sure to install and run [BackpackServer] in your machine. For this app to be functional.
