@@ -40,15 +40,15 @@ export class SignupComponent {
                                      err => console.log(err));  // haven't handled the error case, because it's most unlikely for error to be returned
     }  
 
+    // if below code make too much load on server, then instead of using async validation, use valueChanges property of username FormControl
+    // to set errors manually (Do all of this inside the constructor)
     usernameShouldBeUnique(formControl:FormControl) {
         return new Promise(resolve => {
             let params = new URLSearchParams();
             params.set('username', formControl.value);
             this.http.get('http://localhost:1667/api/users/signup/namecheck', { search: params })
-                     .subscribe(data => resolve(null), error => resolve({ usernameShouldBeUnique: true }));
-                        // error line may cause the bug in case when username is not conflicting but still
-                        // error is still returned due to unreachable page
-                        // i am too lazy to handle the case, it just requires changes of 2-3 lines
-        });
+                    .subscribe(data => resolve(null), error => resolve({ usernameShouldBeUnique: true }));
+                    // error line may cause the bug in case when username is not conflicting but still error is still returned due to unreachable page i am too lazy to handle the case, it just requires changes of 2-3 lines
+       });
     }
 }

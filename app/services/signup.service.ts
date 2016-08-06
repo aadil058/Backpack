@@ -9,8 +9,6 @@ export class SignupService {
     constructor(private http: Http) {}
 
     signup(username, password) {
-        console.log(username);
-        console.log(password);
         return this.http.post('http://localhost:1667/api/users/signup', { username: username, password: password })
                  .map(this.successHandler)
                  .catch(this.failureHandler);
