@@ -1,2 +1,12 @@
-<h2>Courses</h2>
-<button class="btn btn-primary" (click)="logOut()">Logout</button>
+<div>
+    <h2>Courses</h2>
+    <button class="btn btn-primary" (click)="logOut()">Logout</button>
+    <h3>All Courses</h3>
+    <p *ngIf="loadingAllCourses">Loading courses...</p>
+    <ul>
+        <li *ngFor="let course of courses" style="margin-top:15px">
+            {{ course.title }} - {{ course.instructor }}
+            <button class="btn btn-primary">Join Course</button>
+        </li>
+    </ul>
+</div>
