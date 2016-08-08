@@ -1,12 +1,24 @@
 <div>
     <h2>Courses</h2>
     <button class="btn btn-primary" (click)="logOut()">Logout</button>
+    
+    <h3>Joined Courses</h3>
+    <p *ngIf="loadingMyCourses">Loading my courses...</p>
+    <p *ngIf="myCoursesMessage">{{ myCoursesMessage }}</p>
+    <ul>
+        <li *ngFor="let course of mycourses" style="margin-top:15px">
+            {{ course.title }} - {{ course.instructor }}
+        </li>
+    </ul>
+
     <h3>All Courses</h3>
     <p *ngIf="loadingAllCourses">Loading courses...</p>
+    <p *ngIf="allCoursesMessage">{{ allCoursesMessage }}</p>
     <ul>
         <li *ngFor="let course of courses" style="margin-top:15px">
             {{ course.title }} - {{ course.instructor }}
-            <button class="btn btn-primary">Join Course</button>
+            <button *ngIf="course.users.indexOf(userId) === -1" class="btn btn-primary" (click)="addCourse(course)">Join Course</button>
+            <button *ngIf="course.users.indexOf(userId) !== -1" class="btn btn-primary">Joined</button>
         </li>
     </ul>
 </div>
