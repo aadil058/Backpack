@@ -25,25 +25,34 @@ export class CoursesComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.coursesService.getAllCoureses()
-                    .subscribe(data => { this.courses = data.courses;
-                                         this.allCoursesMessage = undefined }, null, 
-                                        () => { this.loadingAllCourses = false;
-                                                if(this.courses.length === 0)
-                                                    this.allCoursesMessage = "Sorry, no course to display"; }
-                              );
+        this.coursesService.getAllCoureses().subscribe(data => this.getAllCoursesSuccessHandler(data), null,() => this.getAllCoursesCompletionHandler());
+        this.coursesService.getMyCourses().subscribe(data => this.getMyCoursesSuccessHandler(data), null,() => this.getMyCoursesCompletionHandler());                                                  
+    }
 
-        this.coursesService.getMyCourses()
-                            .subscribe(data => { this.mycourses = data }, null,
-                                                 () => { this.loadingMyCourses = false;
-                                                         if(this.mycourses.length === 0)
-                                                            this.myCoursesMessage = "You didn't joined any course" });
+    getAllCoursesSuccessHandler(data) {
+        this.courses = data.courses;
+    }
+
+    getAllCoursesCompletionHandler() {
+        this.loadingAllCourses = false;
+        if(this.courses.length === 0)
+            this.allCoursesMessage = "Sorry, No Course to display";
+    }
+
+    getMyCoursesSuccessHandler(data) {
+        this.mycourses = data;
+    }
+
+    getMyCoursesCompletionHandler() {
+        this.loadingMyCourses = false;
+        if(this.mycourses.length === 0)
+            this.myCoursesMessage = "You didn't joined any course";
     }
 
     addCourse(course) {
         this.coursesService.addCourse(course._id).subscribe(data => {
              this.mycourses = data.slice();
-             course.users.push(this.coursesService.getMyID());  // if error adding course revert back to original configuration
+             course.users.push(this.coursesService.getMyID());  // add userId this to current session course or either update all courses (costly)
              this.courses = this.courses.slice();
        }, null, () => this.myCoursesMessage = undefined);
     }

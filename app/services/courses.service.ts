@@ -23,8 +23,7 @@ export class CoursesService {
     getMyCourses() {
         var headers = new Headers();
         headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
-        return this.http.get('http://localhost:1667/api/courses/enrolled', { headers: headers })
-                        .map(data => data.json());
+        return this.http.get('http://localhost:1667/api/courses/enrolled', { headers: headers }).map(data => data.json());
     }
 
     getMyID() {
