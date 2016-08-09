@@ -57,6 +57,16 @@ export class CoursesComponent implements OnInit {
        }, null, () => this.myCoursesMessage = undefined);
     }
 
+    leaveCourse(course) {
+        this.coursesService.leaveCourse(course._id).subscribe(data => this.leaveCourseSuccessHandler(course, data));
+    }
+
+    leaveCourseSuccessHandler(course, data) {
+        var index = this.mycourses.indexOf(course);
+        this.mycourses = data;
+        this.coursesService.getAllCoureses().subscribe(data => this.getAllCoursesSuccessHandler(data), null,() => this.getAllCoursesCompletionHandler()); 
+    }
+
     logOut() {
         this.loginService.logout();
         this.router.navigate(['/home']);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()
@@ -30,5 +30,17 @@ export class CoursesService {
         var token = localStorage.getItem('token');
         var payload = JSON.parse(window.atob(token.split('.')[1]));
         return payload.id;
+    }
+
+    leaveCourse(courseId) {
+        
+        var headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
+
+        var query = new URLSearchParams();
+        query.set('courseId', courseId);
+
+        return this.http.delete('http://localhost:1667/api/courses/leave', { headers : headers, search: query })
+                        .map(res => res.json());
     }
 }

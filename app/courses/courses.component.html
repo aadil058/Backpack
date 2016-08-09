@@ -8,6 +8,7 @@
     <ul>
         <li *ngFor="let course of mycourses" style="margin-top:15px">
             {{ course.title }} - {{ course.instructor }}
+            <button class="btn btn-danger" (click)="leaveCourse(course)">Leave Course</button>
         </li>
     </ul>
 
@@ -17,8 +18,7 @@
     <ul>
         <li *ngFor="let course of courses" style="margin-top:15px">
             {{ course.title }} - {{ course.instructor }}
-            <button *ngIf="course.users.indexOf(userId) === -1" class="btn btn-primary" (click)="addCourse(course)">Join Course</button>
-            <button *ngIf="course.users.indexOf(userId) !== -1" class="btn btn-primary">Joined</button>
+            <button [disabled]="!(course.users.indexOf(userId) === -1)" class="btn btn-primary" (click)="addCourse(course)">Join Course</button>
         </li>
     </ul>
 </div>
